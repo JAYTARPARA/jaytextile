@@ -1,4 +1,4 @@
-# furni_app
+# jaytextile
 
 A new Flutter application.
 
