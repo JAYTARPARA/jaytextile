@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:jaytextile/services/common.dart';
-import 'package:jaytextile/util/categories.dart';
-import 'package:jaytextile/util/furnitures.dart';
+import 'package:jaytextile/util/const.dart';
 import 'package:jaytextile/widgets/dark_theme.dart';
 import 'package:jaytextile/widgets/grid_product.dart';
 import 'package:jaytextile/widgets/home_category.dart';
@@ -111,7 +110,15 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
-        title: Text(widget.categoryName.toString().toUpperCase()),
+        // title: CustomTitle(widget.categoryName.toString().toUpperCase()),
+        title: Text(
+          widget.categoryName.toString().toUpperCase(),
+          style: TextStyle(
+            color: Constants.darkBG,
+            fontSize: 18.0,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
         elevation: 0.0,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(

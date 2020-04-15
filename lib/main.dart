@@ -28,6 +28,9 @@ class MyApp extends StatelessWidget {
           theme: appProvider.theme,
           // home: SplashScreen(),
           home: Home(),
+          routes: <String, WidgetBuilder>{
+            '/home': (BuildContext context) => new Home(),
+          },
         );
       },
     );

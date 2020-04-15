@@ -39,6 +39,9 @@ dependencies:
   getflutter: ^1.0.11
   flutter_open_whatsapp: ^0.1.2
   flutter_launcher_icons: ^0.7.4
+  google_maps_flutter: ^0.5.25+3
+  google_maps_webservice: ^0.0.16
+
 
 dev_dependencies:
   flutter_test:

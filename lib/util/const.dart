@@ -19,13 +19,16 @@ class Constants{
     accentColor:  lightAccent,
     cursorColor: lightAccent,
     scaffoldBackgroundColor: lightBG,
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: Colors.green,
+    ),
     appBarTheme: AppBarTheme(
       textTheme: TextTheme(
-        title: TextStyle(
-          color: darkBG,
-          fontSize: 18.0,
-          fontWeight: FontWeight.w800,
-        ),
+        // title: TextStyle(
+        //   color: darkBG,
+        //   fontSize: 18.0,
+        //   fontWeight: FontWeight.w800,
+        // ),
       ),
 //      iconTheme: IconThemeData(
 //        color: lightAccent,
@@ -40,13 +43,16 @@ class Constants{
     accentColor: darkAccent,
     scaffoldBackgroundColor: darkBG,
     cursorColor: darkAccent,
+    floatingActionButtonTheme: FloatingActionButtonThemeData(
+      backgroundColor: Colors.green,
+    ),
     appBarTheme: AppBarTheme(
       textTheme: TextTheme(
-        title: TextStyle(
-          color: lightBG,
-          fontSize: 18.0,
-          fontWeight: FontWeight.w800,
-        ),
+      //   title: TextStyle(
+      //     color: lightBG,
+      //     fontSize: 18.0,
+      //     fontWeight: FontWeight.w800,
+      //   ),
       ),
 //      iconTheme: IconThemeData(
 //        color: darkAccent,

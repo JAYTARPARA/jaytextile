@@ -13,6 +13,7 @@ class Whatsapp extends StatelessWidget {
         color: Colors.white,
       ),
       backgroundColor: Colors.green,
+      foregroundColor: Colors.green,
       elevation: 15.0,
       onPressed: () {
         FlutterOpenWhatsapp.sendSingleMessage(

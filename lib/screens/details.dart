@@ -7,12 +7,8 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:jaytextile/services/common.dart';
 import 'package:jaytextile/util/const.dart';
-import 'package:jaytextile/util/light_color.dart';
-import 'package:jaytextile/util/read_more_text.dart';
 import 'package:jaytextile/widgets/dark_theme.dart';
 import 'package:jaytextile/widgets/grid_product.dart';
-import 'package:jaytextile/widgets/title_text.dart';
-import 'package:getflutter/getflutter.dart';
 import 'package:jaytextile/widgets/whatsapp.dart';
 
 class ProductDetails extends StatefulWidget {
@@ -83,8 +79,16 @@ class _ProductDetailsState extends State<ProductDetails> {
           onPressed: () => Navigator.pop(context),
         ),
         centerTitle: true,
+        // title: CustomTitle(
+        //   widget.productName,
+        // ),
         title: Text(
           widget.productName,
+          style: TextStyle(
+            color: Constants.darkBG,
+            fontSize: 18.0,
+            fontWeight: FontWeight.w800,
+          ),
         ),
         elevation: 0.0,
         shape: RoundedRectangleBorder(

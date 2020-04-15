@@ -1,22 +1,15 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_open_whatsapp/flutter_open_whatsapp.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:jaytextile/screens/furnitures.dart';
+import 'package:jaytextile/screens/details.dart';
 import 'package:jaytextile/services/common.dart';
-import 'package:jaytextile/sidebar/sidebar.dart';
+import 'package:jaytextile/util/const.dart';
 import 'package:jaytextile/widgets/dark_theme.dart';
 import 'package:jaytextile/widgets/grid_product.dart';
 import 'package:jaytextile/widgets/home_category.dart';
-import 'package:jaytextile/widgets/slider_item.dart';
-import 'package:jaytextile/util/furnitures.dart';
-import 'package:jaytextile/util/categories.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:jaytextile/widgets/whatsapp.dart';
-import 'package:woocommerce_api/woocommerce_api.dart';
-import 'package:http/http.dart' as http;
 
 class Home extends StatefulWidget {
   @override
@@ -24,6 +17,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
+  final listController = ScrollController();
   List sliderProducts = [];
   List collectionProducts = [];
   List productCategories = [];
@@ -51,6 +45,12 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     // print(products.length);
   }
 
+  @override
+  void dispose() {
+    super.dispose();
+    listController.dispose();
+  }
+
   Future getAllProducts() async {
     var prodAll = await Common().getAllProducts();
 
@@ -64,12 +64,14 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
       collectionProducts.add(collectionProductsMap);
     }
 
+    // if (this.mounted) {
     setState(() {
       loadCollection = false;
       if (prodAll.length >= 15) {
         showLoadMore = true;
       }
     });
+    // }
   }
 
   Future getSliderProducts() async {
@@ -78,14 +80,18 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     for (var i = 0; i < prodSlider.length; i++) {
       var sliderProductsMap = {
         'id': prodSlider[i]['id'],
+        'name': prodSlider[i]['name'],
+        'price': prodSlider[i]["price"],
         'image': prodSlider[i]["images"][0]["src"],
       };
       sliderProducts.add(sliderProductsMap);
     }
 
+    // if (this.mounted) {
     setState(() {
       loadSlider = false;
     });
+    // }
   }
 
   Future getAllProductCategories() async {
@@ -97,22 +103,28 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
       }
     }
 
+    // if (this.mounted) {
     setState(() {
       loadCategories = false;
     });
+    // }
   }
 
   Future loadMoreProducts(page) async {
+    // if (this.mounted) {
     setState(() {
       loadingRunning = true;
     });
+    // }
 
     var prodLoadMore = await Common().loadMoreProducts(page);
 
     if (prodLoadMore.length == 0) {
+      // if (this.mounted) {
       setState(() {
         showLoadMore = false;
       });
+      // }
     } else {
       for (var i = 0; i < prodLoadMore.length; i++) {
         var collectionProductsMapNew = {
@@ -124,15 +136,20 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
         collectionProducts.add(collectionProductsMapNew);
       }
       if (prodLoadMore.length < 15) {
+        // if (this.mounted) {
         setState(() {
           showLoadMore = false;
         });
+        // }
       }
     }
+
+    // if (this.mounted) {
     setState(() {
       loadingRunning = false;
       showMorePage++;
     });
+    // }
   }
 
   @override
@@ -141,7 +158,15 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     return Scaffold(
       floatingActionButton: Whatsapp(),
       appBar: AppBar(
-        title: Text('JAY TEXTILE'),
+        // title: CustomTitle('JAY TEXTILE'),
+        title: Text(
+          'JAY TEXTILE',
+          style: TextStyle(
+            color: Constants.darkBG,
+            fontSize: 18.0,
+            fontWeight: FontWeight.w800,
+          ),
+        ),
         centerTitle: true,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.vertical(
@@ -166,6 +191,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
             0.0,
           ),
           child: ListView(
+            controller: listController,
             children: <Widget>[
               //Slider Here
               loadSlider
@@ -188,42 +214,63 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
                       height: MediaQuery.of(context).size.height / 2.4,
                       itemCount: sliderProducts.length,
                       itemBuilder: (BuildContext context, int itemIndex) {
-                        return Container(
-                          margin: EdgeInsets.all(5.0),
-                          child: CachedNetworkImage(
-                            imageUrl: sliderProducts[itemIndex]['image'],
-                            imageBuilder: (context, imageProvider) => Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image: imageProvider,
-                                  fit: BoxFit.cover,
+                        return InkWell(
+                          onTap: () {
+                            // print(sliderProducts[itemIndex]['id']);
+                            Navigator.of(context).push(
+                              MaterialPageRoute(
+                                builder: (BuildContext context) {
+                                  return ProductDetails(
+                                    id: sliderProducts[itemIndex]['id'],
+                                    productName: sliderProducts[itemIndex]
+                                        ['name'],
+                                    productImageAsset: sliderProducts[itemIndex]
+                                        ['image'],
+                                    productPrice: sliderProducts[itemIndex]
+                                        ['price'],
+                                  );
+                                },
+                              ),
+                            );
+                          },
+                          child: Container(
+                            margin: EdgeInsets.all(5.0),
+                            child: CachedNetworkImage(
+                              imageUrl: sliderProducts[itemIndex]['image'],
+                              imageBuilder: (context, imageProvider) =>
+                                  Container(
+                                decoration: BoxDecoration(
+                                  image: DecorationImage(
+                                    image: imageProvider,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
-                            ),
-                            placeholder: (context, url) => Center(
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  SpinKitWave(
-                                    // color: Colors.white,
-                                    color: Theme.of(context).accentColor,
-                                    size: 50.0,
-                                  ),
-                                ],
+                              placeholder: (context, url) => Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    SpinKitWave(
+                                      // color: Colors.white,
+                                      color: Theme.of(context).accentColor,
+                                      size: 50.0,
+                                    ),
+                                  ],
+                                ),
                               ),
+                              errorWidget: (context, url, error) =>
+                                  Icon(Icons.error),
                             ),
-                            errorWidget: (context, url, error) =>
-                                Icon(Icons.error),
+                            // decoration: BoxDecoration(
+                            //   image:
+                            //    DecorationImage(
+                            //     image: NetworkImage(
+                            //         sliderProducts[itemIndex]['image']),
+                            //     fit: BoxFit.cover,
+                            //   ),
+                            //   borderRadius: BorderRadius.circular(10.0),
+                            // ),
                           ),
-                          // decoration: BoxDecoration(
-                          //   image:
-                          //    DecorationImage(
-                          //     image: NetworkImage(
-                          //         sliderProducts[itemIndex]['image']),
-                          //     fit: BoxFit.cover,
-                          //   ),
-                          //   borderRadius: BorderRadius.circular(10.0),
-                          // ),
                         );
                       },
                       viewportFraction: 1.0,

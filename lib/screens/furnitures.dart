@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:jaytextile/util/furnitures.dart';
-import 'package:jaytextile/widgets/grid_product.dart';
 import 'package:woocommerce_api/woocommerce_api.dart';
 
 class FurnitureScreen extends StatefulWidget {
@@ -11,14 +9,14 @@ class FurnitureScreen extends StatefulWidget {
 class _FurnitureScreenState extends State<FurnitureScreen> {
   Future getProducts() async {
     /// Initialize the API
-    WooCommerceAPI wc_api = new WooCommerceAPI(
+    WooCommerceAPI wcApi = new WooCommerceAPI(
       "http://textile.jaytarpara.in",
       "ck_7b4ff0cb8989b3f2595414dfa4d2782c70c84130",
       "cs_495fec8a56ffc6581d4b9255a4ec5e34683769f4",
     );
 
     /// Get data using the endpoint
-    var p = await wc_api.getAsync("products");
+    var p = await wcApi.getAsync("products");
     print(p);
     print('LENGTH: ');
     print(p.length);

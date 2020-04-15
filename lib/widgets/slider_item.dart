@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:jaytextile/screens/details.dart';
-import 'package:jaytextile/util/const.dart';
 
 class SliderItem extends StatelessWidget {
   final String name;
