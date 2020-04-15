@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:jaytextile/util/const.dart';
-import 'package:jaytextile/widgets/whatsapp.dart';
 
 class HelpPage extends StatefulWidget {
   @override
