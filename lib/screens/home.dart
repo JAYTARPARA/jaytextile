@@ -1,5 +1,6 @@
+import 'dart:io';
+
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:double_back_to_close_app/double_back_to_close_app.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:jaytextile/screens/details.dart';
@@ -10,6 +11,7 @@ import 'package:jaytextile/widgets/grid_product.dart';
 import 'package:jaytextile/widgets/home_category.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:jaytextile/widgets/whatsapp.dart';
+import 'package:rflutter_alert/rflutter_alert.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -17,6 +19,7 @@ class Home extends StatefulWidget {
 }
 
 class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   final listController = ScrollController();
   List sliderProducts = [];
   List collectionProducts = [];
@@ -48,6 +51,7 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
   @override
   void dispose() {
     super.dispose();
+    _scaffoldKey.currentState.hideCurrentSnackBar();
     listController.dispose();
   }
 
@@ -152,10 +156,48 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
     // }
   }
 
+  Future<bool> _onWillPop() {
+    return Alert(
+      context: context,
+      style: AlertStyle(
+        isCloseButton: false,
+        isOverlayTapDismiss: false,
+      ),
+      type: AlertType.warning,
+      title: "EXIT APP",
+      desc: "Are you sure you want to exit?",
+      buttons: [
+        DialogButton(
+          child: Text(
+            "No",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
+          ),
+          onPressed: () => Navigator.of(context).pop(false),
+          width: 120,
+        ),
+        DialogButton(
+          child: Text(
+            "Yes",
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 20,
+            ),
+          ),
+          onPressed: () => exit(0),
+          width: 120,
+        ),
+      ],
+    ).show();
+  }
+
   @override
   Widget build(BuildContext context) {
     super.build(context);
     return Scaffold(
+      key: _scaffoldKey,
       floatingActionButton: Whatsapp(),
       appBar: AppBar(
         // title: CustomTitle('JAY TEXTILE'),
@@ -178,11 +220,8 @@ class _HomeState extends State<Home> with AutomaticKeepAliveClientMixin<Home> {
         ],
       ),
       // drawer: Sidebar(),
-      body: DoubleBackToCloseApp(
-        snackBar: const SnackBar(
-          behavior: SnackBarBehavior.floating,
-          content: Text('Press again to exit'),
-        ),
+      body: WillPopScope(
+        onWillPop: _onWillPop,
         child: Padding(
           padding: EdgeInsets.fromLTRB(
             10.0,

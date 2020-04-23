@@ -11,7 +11,7 @@ description: Jay Textile - Fashion Collection.
 # In iOS, build-name is used as CFBundleShortVersionString while build-number used as CFBundleVersion.
 # Read more about iOS versioning at
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: ">=2.1.0 <3.0.0"
@@ -28,7 +28,6 @@ dependencies:
   flutter_rating_bar: ^3.0.1+1
   flutter_masked_text: ^0.8.0
   jiffy: ^3.0.1
-  double_back_to_close_app: ^1.2.0
   woocommerce_api: ^0.0.8
   # http: ^0.12.0+4
   http:
@@ -41,6 +40,7 @@ dependencies:
   flutter_launcher_icons: ^0.7.4
   google_maps_flutter: ^0.5.25+3
   google_maps_webservice: ^0.0.16
+  rflutter_alert: ^1.0.3
 
 
 dev_dependencies:
